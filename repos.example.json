@@ -1,0 +1,6 @@
+{
+  "bootstrap": "https://raw.githubusercontent.com/OWNER/oncoanalyser-bootstrap/main/parts/bootstrap",
+  "singularity-cache": "https://raw.githubusercontent.com/OWNER/oncoanalyser-singularity/main/parts/singularity-cache",
+  "ref-cache": "https://raw.githubusercontent.com/OWNER/oncoanalyser-reference/main/parts/ref-cache",
+  "ref-cache-extracted": "https://raw.githubusercontent.com/OWNER/oncoanalyser-reference-extracted/main/parts/ref-cache-extracted"
+}
