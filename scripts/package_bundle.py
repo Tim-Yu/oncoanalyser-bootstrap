@@ -128,6 +128,12 @@ def main() -> int:
     parser.add_argument("--include", nargs="*", default=DEFAULT_INCLUDE, help="Relative paths to include")
     parser.add_argument("--exclude", nargs="*", default=DEFAULT_EXCLUDE, help="Relative paths or patterns to exclude")
     parser.add_argument(
+        "--artifacts",
+        nargs="*",
+        default=["bootstrap", "runtime", "singularity-cache", "ref-cache"],
+        help="Artifact groups to package",
+    )
+    parser.add_argument(
         "--include-ref-cache-extracted",
         action="store_true",
         help="Include ref_cache_extracted payload (large, optional).",
@@ -158,12 +164,21 @@ def main() -> int:
     bootstrap_items = [item for item in args.include if item in {"README.md", "plan.md", "repos.example.json", "oncoanalyser.sh", "test_offline_stub.sh", "prepare_offline_cache.sh", "conf", "igenomes", ".nextflow", "samplesheet.csv"}]
     payload_groups = [
         ("bootstrap", bootstrap_items),
+        ("runtime", ["oncoanalyser.sh", "test_offline_stub.sh", "prepare_offline_cache.sh", "conf", "igenomes", ".nextflow", "samplesheet.csv"]),
         ("singularity-cache", ["singularity_cache"]),
         ("ref-cache", ["ref_cache"]),
     ]
 
     if args.include_ref_cache_extracted:
         payload_groups.append(("ref-cache-extracted", ["ref_cache_extracted"]))
+
+    selected = set(args.artifacts)
+    valid = {name for name, _ in payload_groups}
+    invalid = sorted(selected - valid)
+    if invalid:
+        raise SystemExit(f"Unknown artifact group(s): {invalid}. Valid groups: {sorted(valid)}")
+
+    payload_groups = [item for item in payload_groups if item[0] in selected]
 
     for name, include in payload_groups:
         archive_path = archives_dir / f"{name}.tar.gz"
