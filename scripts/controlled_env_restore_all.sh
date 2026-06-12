@@ -5,7 +5,8 @@
 # 1) Download + extract bootstrap and runtime payloads
 # 2) Use preloaded singularity/ref caches if provided
 # 3) Otherwise fallback to cache restore scripts
-# 4) Write env helper for cache variables
+# 4) Ensure oncoanalyser.sh + samplesheet.csv are present and tuned for controlled env
+# 5) Write env helper for cache variables
 #
 # Usage:
 #   bash controlled_env_restore_all.sh \
@@ -84,7 +85,28 @@ else
   bash "$(dirname "$0")/controlled_env_restore_ref_cache.sh" "$ROOT_DIR"
 fi
 
-echo "[5/5] Writing environment helper..."
+echo "[5/6] Ensuring oncoanalyser.sh + samplesheet.csv in controlled env..."
+if [[ ! -f "$ROOT_DIR/oncoanalyser.sh" ]]; then
+  echo "ERROR: oncoanalyser.sh not found after runtime extraction at $ROOT_DIR/oncoanalyser.sh"
+  exit 1
+fi
+
+chmod +x "$ROOT_DIR/oncoanalyser.sh"
+
+if [[ ! -f "$ROOT_DIR/samplesheet.csv" ]]; then
+  echo "group_id,subject_id,sample_id,sample_type,sequence_type,filetype,filepath" > "$ROOT_DIR/samplesheet.csv"
+  echo "      Created placeholder samplesheet.csv (header only)."
+else
+  echo "      Found samplesheet.csv; leaving content unchanged."
+fi
+
+# Tune defaults for controlled env while preserving user-overrides via environment variables.
+sed -i 's|^REF_CACHE_DIR=.*|REF_CACHE_DIR="${REF_CACHE_DIR:-${HMFTOOLS_GENOME_CACHEDIR:-$ROOT_DIR/ref_cache}/GRCh38_hmf}"|' "$ROOT_DIR/oncoanalyser.sh"
+sed -i 's|^INPUT_SHEET=.*|INPUT_SHEET="${INPUT_SHEET:-$ROOT_DIR/samplesheet.csv}"|' "$ROOT_DIR/oncoanalyser.sh"
+sed -i 's|^--outdir .*|  --outdir "${OUTDIR:-$ROOT_DIR/output}" \\|' "$ROOT_DIR/oncoanalyser.sh"
+echo "      Patched oncoanalyser.sh defaults for controlled env."
+
+echo "[6/6] Writing environment helper..."
 cat > "$ROOT_DIR/env_controlled.sh" <<EOF
 #!/usr/bin/env bash
 set -euo pipefail
@@ -99,3 +121,4 @@ echo "Restore complete."
 echo "Root: $ROOT_DIR"
 echo "Env helper: $ROOT_DIR/env_controlled.sh"
 echo "Use: source $ROOT_DIR/env_controlled.sh"
+echo "Run: $ROOT_DIR/oncoanalyser.sh"
