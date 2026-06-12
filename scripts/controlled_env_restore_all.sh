@@ -24,8 +24,8 @@ ROOT_DIR="${1:-/path/to/oncoanalyser_bundle}"
 SING_CACHE_SRC="${2:-}"
 REF_CACHE_SRC="${3:-}"
 
-BOOTSTRAP_BASE="https://raw.githubusercontent.com/Tim-Yu/oncoanalyser-bootstrap/main/parts/bootstrap"
-RUNTIME_BASE="https://raw.githubusercontent.com/Tim-Yu/oncoanalyser-runtime-parts/main/parts/runtime"
+BOOTSTRAP_BASE="https://github.com/Tim-Yu/oncoanalyser-bootstrap/raw/refs/heads/main/parts/bootstrap"
+RUNTIME_BASE="https://github.com/Tim-Yu/oncoanalyser-runtime-parts/raw/refs/heads/main/parts/runtime"
 
 BOOTSTRAP_PARTS=2
 RUNTIME_PARTS=2

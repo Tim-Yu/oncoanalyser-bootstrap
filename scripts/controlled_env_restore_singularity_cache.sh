@@ -8,7 +8,7 @@ set -euo pipefail
 ROOT_DIR="${1:-/path/to/oncoanalyser_bundle}"
 PARTS_DIR="$ROOT_DIR/download_parts/singularity-cache"
 ARCHIVE_PATH="$ROOT_DIR/singularity-cache.tar.gz"
-BASE_URL="https://raw.githubusercontent.com/Tim-Yu/oncoanalyser-singularity-cache-parts/main/parts/singularity-cache"
+BASE_URL="https://github.com/Tim-Yu/oncoanalyser-singularity-cache-parts/raw/refs/heads/main/parts/singularity-cache"
 
 mkdir -p "$PARTS_DIR"
 

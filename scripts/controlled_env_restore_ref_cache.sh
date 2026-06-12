@@ -15,8 +15,8 @@ ROOT_DIR="${1:-/path/to/oncoanalyser_bundle}"
 PARTS_DIR="$ROOT_DIR/download_parts/ref-cache"
 ARCHIVE_PATH="$ROOT_DIR/ref-cache.tar.gz"
 
-MAIN_BASE="https://raw.githubusercontent.com/Tim-Yu/oncoanalyser-ref-cache-parts/main/parts/ref-cache"
-TAIL_BASE="https://raw.githubusercontent.com/Tim-Yu/oncoanalyser-ref-cache-tail-parts/main/parts/ref-cache"
+MAIN_BASE="https://github.com/Tim-Yu/oncoanalyser-ref-cache-parts/raw/refs/heads/main/parts/ref-cache"
+TAIL_BASE="https://github.com/Tim-Yu/oncoanalyser-ref-cache-tail-parts/raw/refs/heads/main/parts/ref-cache"
 
 MAIN_END=990
 TAIL_START=991
