@@ -16,17 +16,17 @@
 #
 # Example with your screenshot layout:
 #   bash controlled_env_restore_all.sh \
-#     /re_gecip/cancer_sarcoma/36.Oncoanalyser_CCS_GMScases \
+#     /re_gecip/cancer_sarcoma/36.Oncoanalyser_CCS_GMScases/36.1.workflow \
 #     /re_gecip/cancer_sarcoma/36.Oncoanalyser_CCS_GMScases/36.1.workflow/36.1.1.Singularity_cache/singularity_cache \
 #     /re_gecip/cancer_sarcoma/36.Oncoanalyser_CCS_GMScases/36.1.workflow/36.1.2.Ref_cache/ref_cache
 set -euo pipefail
 
-ROOT_DIR="${1:-/re_gecip/cancer_sarcoma/36.Oncoanalyser_CCS_GMScases}"
-SING_CACHE_SRC="${2:-/re_gecip/cancer_sarcoma/36.Oncoanalyser_CCS_GMScases/36.1.workflow/36.1.1.Singularity_cache/singularity_cache}"
-REF_CACHE_SRC="${3:-/re_gecip/cancer_sarcoma/36.Oncoanalyser_CCS_GMScases/36.1.workflow/36.1.2.Ref_cache/ref_cache}"
+ROOT_DIR="${1:-/re_gecip/cancer_sarcoma/36.Oncoanalyser_CCS_GMScases/36.1.workflow}"
+SING_CACHE_SRC="${2:-$ROOT_DIR/36.1.1.Singularity_cache/singularity_cache}"
+REF_CACHE_SRC="${3:-$ROOT_DIR/36.1.2.Ref_cache/ref_cache}"
 
-# Workflow content lives in this subfolder.
-WORKFLOW_DIR="$ROOT_DIR/36.1.workflow"
+# Workflow content lives directly in ROOT_DIR.
+WORKFLOW_DIR="$ROOT_DIR"
 
 BOOTSTRAP_BASE="https://github.com/Tim-Yu/oncoanalyser-bootstrap/raw/refs/heads/main/parts/bootstrap"
 RUNTIME_BASE="https://github.com/Tim-Yu/oncoanalyser-runtime-parts/raw/refs/heads/main/parts/runtime"
